@@ -9,11 +9,13 @@ import { Pricing } from "@/components/pricing"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 import { SectionDivider } from "@/components/section-divider"
+import { DynamicIslandNav } from "@/components/dynamic-island-nav"
 
 export default function Page() {
   return (
     <main>
       <Navbar />
+      <DynamicIslandNav />
       <Hero />
       <SectionDivider />
       <Features />
