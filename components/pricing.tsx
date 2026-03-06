@@ -3,41 +3,45 @@
 import { motion } from "framer-motion"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { Check } from "lucide-react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
 
 const plans = [
   {
-    name: "Monthly",
-    price: "12.99",
-    period: "/month",
+    name: "1 Month",
+    price: "1.99",
+    period: "",
     description: "Full protection, billed monthly",
     features: [
       "All server locations",
       "Unlimited bandwidth",
-      "Up to 5 devices",
-      "24/7 support",
+      "Unlimited devices",
+      "Priority support",
+      "Ad & tracker blocking",
+      "Dedicated IP included",
     ],
     featured: false,
   },
   {
-    name: "Yearly",
-    price: "4.99",
-    period: "/month",
+    name: "1 Year",
+    price: "13.99",
+    period: "",
     description: "Best value, billed annually",
     features: [
       "All server locations",
       "Unlimited bandwidth",
-      "Up to 10 devices",
+      "Unlimited devices",
       "Priority support",
       "Ad & tracker blocking",
-      "Dedicated IP option",
+      "Dedicated IP included",
     ],
     featured: true,
   },
   {
-    name: "Lifetime",
-    price: "199",
-    period: " once",
-    description: "Pay once, protected forever",
+    name: "3 Months",
+    price: "4.99",
+    period: "",
+    description: "Great value, popular choice",
     features: [
       "All server locations",
       "Unlimited bandwidth",
@@ -52,6 +56,18 @@ const plans = [
 
 export function Pricing() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        setIsAuthenticated(Boolean(data?.user))
+      })
+      .catch(() => {
+        setIsAuthenticated(false)
+      })
+  }, [])
 
   return (
     <section id="pricing" className="relative py-32 px-6">
@@ -90,11 +106,10 @@ export function Pricing() {
                     delay: i * 0.2,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className={`relative rounded-2xl p-8 transition-all duration-500 ${
-                    plan.featured
+                  className={`relative rounded-2xl p-8 transition-all duration-500 ${plan.featured
                       ? "border-2 border-primary/50 bg-card scale-[1.02]"
                       : "border border-border/50 bg-card/50 hover:border-border"
-                  }`}
+                    }`}
                 >
                   {plan.featured && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -130,16 +145,19 @@ export function Pricing() {
                     ))}
                   </ul>
 
-                  <a
-                    href="#"
-                    className={`block w-full text-center rounded-full py-3 text-sm font-medium transition-all duration-300 hover:scale-[1.02] ${
-                      plan.featured
+                  <Link
+                    href={
+                      isAuthenticated
+                        ? `/payment?plan=${plan.name.toLowerCase()}&price=${plan.price}`
+                        : "/register"
+                    }
+                    className={`block w-full text-center rounded-full py-3 text-sm font-medium transition-all duration-300 hover:scale-[1.02] ${plan.featured
                         ? "bg-primary text-primary-foreground hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                         : "border border-border bg-secondary text-secondary-foreground hover:bg-accent"
-                    }`}
+                      }`}
                   >
                     Get started
-                  </a>
+                  </Link>
                 </motion.div>
               )
             }

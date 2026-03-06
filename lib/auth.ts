@@ -1,43 +1,69 @@
-import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
+import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
+import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
-const secretKey = "secret-key-change-me"; // In production, use process.env.JWT_SECRET
-const key = new TextEncoder().encode(secretKey);
+const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-change-this-in-production';
+const encodedSecret = new TextEncoder().encode(JWT_SECRET);
 
-export async function encrypt(payload: any) {
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
+export async function signToken(payload: JWTPayload) {
+  return new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime("1d")
-    .sign(key);
+    .setExpirationTime('7d')
+    .sign(encodedSecret);
 }
 
-export async function decrypt(input: string): Promise<any> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ["HS256"],
-  });
-  return payload;
-}
-
-export async function getSession() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("session")?.value;
-  if (!session) return null;
+export async function verifyToken(token: string) {
   try {
-    return await decrypt(session);
+    const { payload } = await jwtVerify(token, encodedSecret);
+    return payload;
   } catch (error) {
     return null;
   }
 }
 
-export async function login(userData: any) {
-  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-  const session = await encrypt({ user: userData, expires });
+export async function getSession() {
   const cookieStore = await cookies();
-  cookieStore.set("session", session, { expires, httpOnly: true, path: '/' });
+  const token = cookieStore.get('auth_token');
+
+  if (!token) return null;
+
+  return await verifyToken(token.value);
 }
 
-export async function logout() {
+export async function createSession(userId: number, email: string) {
+  const maxAge = 7 * 24 * 60 * 60; // 7 days in seconds
+  const expires = new Date(Date.now() + maxAge * 1000);
+
+  const token = await signToken({ userId, email });
+
   const cookieStore = await cookies();
-  cookieStore.set("session", "", { expires: new Date(0), path: '/' });
+  cookieStore.set('auth_token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    expires,
+    path: '/',
+  });
+}
+
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete('auth_token');
+}
+
+export async function updateSession(request: NextRequest) {
+  const token = request.cookies.get('auth_token')?.value;
+
+  if (!token) return NextResponse.next();
+
+  const session = await verifyToken(token);
+  if (!session) return NextResponse.next();
+
+  // Optionally extend session expiration here
+  // const res = NextResponse.next();
+  // res.cookies.set({...})
+  // return res;
+
+  return NextResponse.next();
 }

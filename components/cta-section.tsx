@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 export function CTASection() {
   const { ref, isVisible } = useScrollAnimation()
@@ -45,13 +46,13 @@ export function CTASection() {
             transition={{ duration: 2.0, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <a
-              href="#"
+            <Link
+              href="#pricing"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.12)]"
             >
               Get Hydrogen VPN
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+            </Link>
             <span className="text-sm text-muted-foreground">
               30-day money-back guarantee
             </span>

@@ -11,7 +11,7 @@ function ShieldVisual() {
         className="absolute inset-0 rounded-full border border-border/40"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
       />
 
       {/* Middle ring */}
@@ -19,7 +19,7 @@ function ShieldVisual() {
         className="absolute inset-8 rounded-full border border-border/30"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
       />
 
       {/* Inner ring with glow */}
@@ -27,7 +27,7 @@ function ShieldVisual() {
         className="absolute inset-16 rounded-full border border-border/20"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
       />
 
       {/* Central glow */}
@@ -35,10 +35,10 @@ function ShieldVisual() {
         className="absolute inset-0 flex items-center justify-center"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2, delay: 1.2 }}
+        transition={{ duration: 0.9, delay: 0.35 }}
       >
         <div className="relative">
-          <div className="h-16 w-16 md:h-20 md:w-20 rounded-full bg-primary/10 animate-glow-pulse" />
+          <div className="h-16 w-16 md:h-20 md:w-20 rounded-full bg-primary/12 animate-glow-pulse" />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="h-6 w-6 md:h-8 md:w-8 rounded-full bg-primary/80" />
           </div>
@@ -87,14 +87,14 @@ export function Hero() {
       />
 
       {/* Radial gradient overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(0_0%_8%)_0%,_transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(220_20%_14%)_0%,_transparent_70%)]" />
 
       <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-secondary/50 px-4 py-1.5 text-xs text-muted-foreground">
@@ -110,7 +110,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2.0, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="mb-12"
         >
           <ShieldVisual />
@@ -120,7 +120,7 @@ export function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-primary leading-[0.95] text-balance"
         >
           Invisible
@@ -132,7 +132,7 @@ export function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="mt-6 max-w-xl text-lg md:text-xl text-muted-foreground leading-relaxed"
         >
           The fastest, most private VPN. Built for the modern internet.
@@ -143,19 +143,19 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
           <a
             href="#pricing"
-            className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+            className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_35px_rgba(15,23,42,0.15)]"
           >
             Start free trial
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
           <a
             href="#features"
-            className="inline-flex items-center justify-center rounded-full border border-border px-8 py-3.5 text-base font-medium text-primary transition-all duration-300 hover:bg-secondary hover:scale-105"
+            className="inline-flex items-center justify-center rounded-full border border-border/90 bg-card/75 px-8 py-3.5 text-base font-medium text-primary transition-all duration-300 hover:bg-secondary hover:scale-[1.02]"
           >
             Learn more
           </a>
